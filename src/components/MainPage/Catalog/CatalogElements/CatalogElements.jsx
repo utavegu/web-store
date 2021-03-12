@@ -1,43 +1,8 @@
 import React from 'react'
 
-/* РАЗБИТЬ НА 3 КОМПОНЕНТА ЕЩЁ */
-
-export default function Catalog() {
-  return (
-    <section className="catalog">
-      <h2 className="text-center">Каталог</h2>
-
-      {/* ЕСЛИ ГРУЗИТСЯ */}
-      <div className="preloader">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-
-      {/* ЕСЛИ ПОДГРУЗИЛСЯ */}
-
-			{/* КОМПОНЕНТ - КАТЕГОРИИ КАТАЛОГА */}
-      <ul className="catalog-categories nav justify-content-center">
-				<li className="nav-item">
-					<a className="nav-link active" href="#">Все</a>
-				</li>
-				<li className="nav-item">
-					<a className="nav-link" href="#">Женская обувь</a>
-				</li>
-				<li className="nav-item">
-					<a className="nav-link" href="#">Мужская обувь</a>
-				</li>
-				<li className="nav-item">
-					<a className="nav-link" href="#">Обувь унисекс</a>
-				</li>
-				<li className="nav-item">
-					<a className="nav-link" href="#">Детская обувь</a>
-				</li>
-    	</ul>
-
-		{/* КОМПОНЕНТ - ЭЛЕМЕНТЫ КАТАЛОГА */}
-    <div className="row">
+export default function CatalogElements() {
+	return (
+		<div className="row">
 
 			<div className="col-4">
 				<div className="card catalog-item-card">
@@ -112,12 +77,5 @@ export default function Catalog() {
 			</div>
 
     </div>
-
-		{/* КОМПОНЕНТ - ЗАГРУЗИТЬ ЕЩЁ */}
-    <div className="text-center">
-    	<button className="btn btn-outline-primary">Загрузить ещё</button>
-    </div>
-
-    </section>
-  )
+	)
 }
