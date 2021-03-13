@@ -6,15 +6,16 @@ export default function TopSales() {
 			<h2 className="text-center">Хиты продаж!</h2>
 			
 			{/* ЕСЛИ ГРУЗИТСЯ */}
+      {/*
 			<div className="preloader">
 				<span></span>
 				<span></span>
 				<span></span>
 				<span></span>
 			</div>
+      */}
 
 			{/* ЕСЛИ ПОДГРУЗИЛСЯ */}
-			{/*
 			<div className="row">
 				<div className="col-4">
 					<div className="card">
@@ -49,9 +50,8 @@ export default function TopSales() {
 						</div>
 					</div>
 				</div>
-		</div>
-		*/}
-
+		  </div>
+		
 		</section>
   )
 }

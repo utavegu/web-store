@@ -5,7 +5,7 @@ export default function Cart() {
   return (
 		<>
 
-			<section className="cart">
+		  <section className="cart">
 				<h2 className="text-center">Корзина</h2>
 				<table className="table table-bordered">
 					<thead>
@@ -30,7 +30,7 @@ export default function Cart() {
 							<td><button className="btn btn-outline-danger btn-sm">Удалить</button></td>
 						</tr>
 						<tr>
-							<td colspan="5" className="text-right">Общая стоимость</td>
+							<td colSpan="5" className="text-right">Общая стоимость</td>
 							<td>34 000 руб.</td>
 						</tr>
 					</tbody>
@@ -39,7 +39,7 @@ export default function Cart() {
 
 			<section className="order">
 				<h2 className="text-center">Оформить заказ</h2>
-				<div className="card" style="max-width: 30rem; margin: 0 auto;">
+        <div className="card" style={{maxWidth: 30+'rem', margin: '0 auto'}}>
 					<form className="card-body">
 						<div className="form-group">
 							<label htmlFor="phone">Телефон</label>
@@ -53,10 +53,10 @@ export default function Cart() {
 							<input type="checkbox" className="form-check-input" id="agreement" />
 							<label className="form-check-label" htmlFor="agreement">Согласен с правилами доставки</label>
 						</div>
-						<button type="submit" class="btn btn-outline-secondary">Оформить</button>
+						<button type="submit" className="btn btn-outline-secondary">Оформить</button>
 					</form>
 				</div>
-			</section>
+			</section> 
 
 		</>
   )
