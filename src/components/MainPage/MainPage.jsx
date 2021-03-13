@@ -1,15 +1,12 @@
 import React from 'react'
+import Catalog from './Catalog/Catalog'
+import TopSales from './TopSales/TopSales'
 
-/* ПРОПТАЙПС! ДЕФОЛТ ПРОПС! */
-
-export default function Main(props) {
+export default function Main() {
   return (
-    <main className="container">
-			<div className="row">
-				<div className="col">
-					{props.children}
-				</div>
-			</div>
-    </main>
+    <>
+      <TopSales />
+      <Catalog />
+    </>	
   )
 }

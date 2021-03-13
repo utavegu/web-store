@@ -18,6 +18,10 @@ export default function Catalog() {
 
       {/* ЕСЛИ ПОДГРУЗИЛСЯ */}
       {/*
+      Отрисовывать, только если юрл - каталог, а не мэйн пэйдж
+      <form className="catalog-search-form form-inline">
+        <input className="form-control" placeholder="Поиск" />
+      </form>
       <CatalogCategories />
       <CatalogElements />
       <CatalogLoadMore />

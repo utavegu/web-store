@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import {NavLink} from 'react-router-dom';
 
 export default function Header() {
   return (
@@ -8,22 +9,21 @@ export default function Header() {
 					<nav className="navbar navbar-expand-sm navbar-light bg-light">
 						<a className="navbar-brand" href="/">
 							<img src="./img/header-logo.png" alt="Bosa Noga" />
-							{/* Вообще надо бы узнать как правильно, если в паблике имг нет изначально */}
 						</a>
 						<div className="collapase navbar-collapse" id="navbarMain">
 							<ul className="navbar-nav mr-auto">
-								<li className="nav-item active">
-									<a className="nav-link" href="/">Главная</a>
-								</li>
-								<li className="nav-item">
-									<a className="nav-link" href="/catalog.html">Каталог</a>
-								</li>
-								<li className="nav-item">
-									<a className="nav-link" href="/about.html">О магазине</a>
-								</li>
-								<li className="nav-item">
-									<a className="nav-link" href="/contacts.html">Контакты</a>
-								</li>
+                <li className="nav-item" activeClassName="nav-item active">
+                  <NavLink to="/" className="nav-link" exact>Главная</NavLink>
+                </li>
+                <li className="nav-item" activeClassName="nav-item active">
+                  <NavLink to="/catalog" className="nav-link">Каталог</NavLink>
+                </li>
+                <li className="nav-item" activeClassName="nav-item active">
+                  <NavLink to="/about" className="nav-link">О магазине</NavLink>
+                </li>
+                <li className="nav-item" activeClassName="nav-item active">
+                  <NavLink to="/contacts" className="nav-link">Контакты</NavLink>
+                </li>
 							</ul>
 							<div>
 								<div className="header-controls-pics">

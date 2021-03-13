@@ -4,6 +4,10 @@ import Footer from './components/Footer/Footer.jsx';
 import Header from './components/Header/Header.jsx';
 import MainPage from './components/MainPage/MainPage.jsx';
 import TopSales from './components/MainPage/TopSales/TopSales.jsx';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+import AboutPage from './components/AboutPage/AboutPage.jsx'
+import ContactsPage from './components/ContactsPage/ContactsPage.jsx'
+import Wrapper from './components/Wrapper/Wrapper.jsx';
 
 /*
 ? - Так, я так понял, что хэдер, футер и баннер - это вообще на каждой странице... глянь ещё раз тз и макеты, и,  вероятно, следует поменять логику отрисовки компонентов
@@ -19,15 +23,17 @@ import TopSales from './components/MainPage/TopSales/TopSales.jsx';
 
 function WebStore() {
   return (
-    <>
+    <Router>
       <Header />
-      <MainPage>
+      <Wrapper>
         <Banner />
-        <TopSales />
-        <Catalog />
-      </MainPage>
+        <Route path="/" exact component={MainPage} />
+        <Route path="/catalog" component={Catalog} />
+        <Route path="/about" component={AboutPage} />
+        <Route path="/contacts" component={ContactsPage} />
+      </Wrapper>
       <Footer />
-    </>
+    </Router>
   );
 }
 
