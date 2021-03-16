@@ -8,12 +8,14 @@ export default function PostsProvider(props) {
 
   const ALL_ITEMS_LINK = "http://localhost:7070/api/items";
   const TOP_SALES_LINK = "http://localhost:7070/api/top-sales";
+  const CATALOG_CATEGORIES_LINK = "http://localhost:7070/api/categories";
   
 	const allItems = useJsonFetch(ALL_ITEMS_LINK);
   const topItems = useJsonFetch(TOP_SALES_LINK);
+  const categories = useJsonFetch(CATALOG_CATEGORIES_LINK);
 
 
-  const allData = [allItems, topItems];
+  const allData = [allItems, topItems, categories];
 
   return (
     <Context.Provider value={allData}>
