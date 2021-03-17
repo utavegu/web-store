@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function CatalogItem({item}) {
 
@@ -33,7 +34,8 @@ export default function CatalogItem({item}) {
 				<div className="card-body">
 					<p className="card-text">{item.title}</p>
 					<p className="card-text">{item.price}</p>
-					<a href="/products/1.html" className="btn btn-outline-primary">Заказать</a>
+					{/* <a href="/products/1.html" className="btn btn-outline-primary">Заказать</a> */}
+          <Link to={`/catalog/${item.id}`} className="btn btn-outline-primary">Заказать</Link>
 				</div>
 			</div>
 		</div>

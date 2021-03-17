@@ -1,9 +1,7 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import CatalogCategories from './CatalogCategories/CatalogCategories'
 import CatalogElements from './CatalogElements/CatalogElements'
 import CatalogLoadMore from './CatalogLoadMore/CatalogLoadMore'
-import Context from '../../contexts/Context';
-import useJsonFetch from '../../hooks/useJsonFetch';
 
 function CatalogSearch() {
   return (
