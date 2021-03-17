@@ -5,6 +5,19 @@
 
 } */
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
 }
@@ -443,6 +456,7 @@ section {
 .catalog-item-size {
   display: inline-block;
   padding: 0 10px;
+  cursor: pointer;
 }
 
 .catalog-item-size.selected {
@@ -563,4 +577,12 @@ h2, .h2 {
 .btn-outline-primary:hover {
   background-color: #727e86;
   border-color: #727e86;
+}
+
+/* My styles */
+
+.catalog-item-radio:checked + .catalog-item-size {
+  background: #727e86;
+  border-radius: 15px;
+  color: #fff;
 }
