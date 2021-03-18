@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 
 /* 
   Так, вот надо, чтобы при заходе на эту страницу логотип не отваливался...
@@ -9,13 +9,6 @@ import React, {useState, useEffect} from 'react';
 
 /*
 ЗАКАЗ ТОВАРА
-6) Размеры - выводятся все доступные размеры (у которых флаг available равен true). По умолчанию ни один размер не выбран. После выбора он становится выделенным, как на скриншоте. 
-
-!!! Важно: кнопка "В корзину" активируется только тогда, когда есть размеры в наличии и выбран конкретный размер. Размер можно выбрать только один !!!
-
-Выбор размеров реализовать чекбоксами
-7) Количество - от 1 до 10. (ну это тупо инкремент и декремент, с блоком кнопки, если 0 или 10)
-8) Если ни одного размера не доступно, блок Количество и кнопка "В корзину" не отображаются.
 9) После нажатия на кнопку "В корзину" пользователь перемещается в страницу корзины /cart.html.
 (вот тут наверное запихивание в локалстрорэдж уже и пойдёт)
 */
@@ -39,6 +32,7 @@ export default function ProductPage({match}) {
 
   const [item, setItem] = useState(null);
   const [itemError, setItemError] = useState(null);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(
 		() => {
@@ -62,14 +56,25 @@ export default function ProductPage({match}) {
 		[itemUrl]
 	);
 
+  const addToCartButton = useRef(null);
+  const quantityModule = useRef(null);
+
+  const handleIncrement = () => {
+    setQuantity(prevQuantity=> prevQuantity + 1);
+    if (quantity >= 10) setQuantity(10);
+  }
+
+  const handleDecrement = () => {
+    setQuantity(prevQuantity => prevQuantity - 1);
+    if (quantity <= 0) setQuantity(0);
+  }
+
   const handleClick = () => {
-    console.log("Разблокировка кнопки 'В корзину'");
+    if (addToCartButton.current.hasAttribute("disabled")) addToCartButton.current.removeAttribute("disabled");
+    if (quantityModule.current.style.visibility === "hidden") quantityModule.current.style.visibility = "visible";
   }
 
   // ВРЕМЕННО
-  // 1) Через useRef достаём кнопку "В корзину"
-  // 2) И в хэндл-клике проверяем, что если она дисаблед (вспомни на вебрефе как там правильно), то тогда её енаблед (дисаблед фолс)
-
   // if (item) item.sizes.forEach(size => {
   //   size.avalible = false;
   // });
@@ -131,15 +136,15 @@ export default function ProductPage({match}) {
                   }
 
 								</p>
-								<p>Количество:
+								<p ref={quantityModule} style={{visibility: "hidden"}}>Количество:
 									<span className="btn-group btn-group-sm pl-2">
-										<button className="btn btn-secondary">-</button>
-										<span className="btn btn-outline-primary">1</span>
-										<button className="btn btn-secondary">+</button>
+										<button onClick={handleDecrement} className="btn btn-secondary">-</button>
+										<span className="btn btn-outline-primary">{quantity}</span>
+										<button onClick={handleIncrement}  className="btn btn-secondary">+</button>
 									</span>
 								</p>
 							</div>
-							<button className="btn btn-danger btn-block btn-lg" disabled>В корзину</button>
+							<button ref={addToCartButton} className="btn btn-danger btn-block btn-lg" disabled>В корзину</button>
 					</div>
 			</div>
 		</section>
