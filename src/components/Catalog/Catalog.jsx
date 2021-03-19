@@ -1,15 +1,8 @@
-import React, {useState, useEffect} from 'react'
-import CatalogCategories from './CatalogCategories/CatalogCategories'
-import CatalogElements from './CatalogElements/CatalogElements'
-import CatalogLoadMore from './CatalogLoadMore/CatalogLoadMore'
-
-function CatalogSearch() {
-  return (
-    <form className="catalog-search-form form-inline">
-      <input className="form-control" placeholder="Поиск" />
-    </form>
-  )
-}
+import React, {useState, useEffect} from 'react';
+import CatalogCategories from './CatalogCategories/CatalogCategories';
+import CatalogElements from './CatalogElements/CatalogElements';
+import CatalogLoadMore from './CatalogLoadMore/CatalogLoadMore';
+import CatalogSearch from './CatalogSearch';
 
 // Тебя тоже в утилджээс
 function Preloader() {
@@ -41,11 +34,26 @@ offset=62 - больше никакая обувь не приходит, на 6
 
 export default function Catalog(props) {
   const INITIAL_LINK = "http://localhost:7070/api/items";
-  const TEST_LINK = "http://localhost:7070/api/items?categoryId=0&offset=0&q=";
-  
+
+  // юз мемо и юз реф
+
+  // объект стэйт
+  // const handleChange = ({target}) => {
+    //setForm(prevForm => ({...prevForm, [target.name]: target.value}));
+  //}
+  // Точечная перерисовка с помощью спред... на планшете точно было... Всё-таки надо его включить и забрать инфу
+
+  // консоль лог в каждом компоненте юз э
+
   const [items, setItems] = useState(null);
 	const [itemsError, setItemsError] = useState(null);
-  const [itemsUrl, setItemsUrl] = useState(TEST_LINK);
+  const [urlParams, setUrlParams] = useState({
+    category: 0,
+    query: '',
+    offset: 0,
+  })
+
+  let itemsUrl = `http://localhost:7070/api/items?categoryId=${urlParams.category}&q=${urlParams.query}&offset=0`
 
 	useEffect(
 		() => {
@@ -70,15 +78,18 @@ export default function Catalog(props) {
 	);
 
   const handleChangeCategory = (categoryName, allCategories) => {
-    let link;
+    let categoryId;
     if (categoryName === "Все") {
-      link  = "http://localhost:7070/api/items";
+      categoryId = 0;
     } else {
       let result = allCategories.find(category => category.title.toLowerCase() === categoryName.toLowerCase());
-      link = `http://localhost:7070/api/items?categoryId=${result.id}`;
+      categoryId = result.id;
     }
-    // Так, тебя нужно поправить так, чтобы ты возвращал не готовую ссылку и сразу её в сетЮрл, а только число категории. В елсе от 11 до 15 и в ифе просто 0.
-    setItemsUrl(link);
+    setUrlParams(prevParams => ({...prevParams, category: categoryId}));
+  }
+
+  const handleQuery = (queryString) => {
+    setUrlParams(prevParams => ({...prevParams, query: queryString}));
   }
 
   let isCatalog;
@@ -92,13 +103,11 @@ export default function Catalog(props) {
   1) Прелоадер и Ошибку в отдельные компоненты
   */
 
-  console.log(items);
-
   return (
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
 
-      {isCatalog && <CatalogSearch />}
+      {isCatalog && <CatalogSearch onQuery={handleQuery} />}
 
       <CatalogCategories onChangeCategory={handleChangeCategory} />
 
