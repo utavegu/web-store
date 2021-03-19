@@ -1,16 +1,14 @@
 import React, {useState, useEffect, useRef} from 'react';
 
 /* 
-  Так, вот надо, чтобы при заходе на эту страницу логотип не отваливался...
-*/
-/* 
-  Так, вот тут вообще обёртка из каталог итема должна бы быть всегда, а прелоадер показывать внутри неё... В принципе в качестве костыля данному прелоадеру можно задать фиксированную высоту, равную высоте секции. Через инлайн стили. И чтобы ещё прямо в центре секции крутился
-*/
+- Так, вот надо, чтобы при заходе на эту страницу логотип не отваливался...
 
-/*
-ЗАКАЗ ТОВАРА
-9) После нажатия на кнопку "В корзину" пользователь перемещается в страницу корзины /cart.html.
+- Тут вообще обёртка из каталог итема должна бы быть всегда, а прелоадер показывать внутри неё... В принципе в качестве костыля данному прелоадеру можно задать фиксированную высоту, равную высоте секции. Через инлайн стили. И чтобы ещё прямо в центре секции крутился
+
+- После нажатия на кнопку "В корзину" пользователь перемещается в страницу корзины /cart.html.
 (вот тут наверное запихивание в локалстрорэдж уже и пойдёт)
+
+- По уму надо бы содержимое секшена в отдельный компонент вынести, а то проблемы с отображением прелоадера и ошибки
 */
 
 // Тебя тоже в утилджээс
@@ -27,7 +25,6 @@ function Preloader() {
 
 export default function ProductPage({match}) {
   
-
   const itemUrl = `http://localhost:7070/api/items/${match.params.id}`;
 
   const [item, setItem] = useState(null);
@@ -85,7 +82,6 @@ export default function ProductPage({match}) {
     <Preloader />
     :
 		<section className="catalog-item">
-      
 			<h2 className="text-center">{item.title}</h2>
 			<div className="row">
 					<div className="col-5">
@@ -123,18 +119,15 @@ export default function ProductPage({match}) {
 						</table>
 							<div className="text-center">
 								<p>Размеры в наличии: 
-
                   {item.sizes
                     .filter(size => size.avalible)
                     .map(item =>
-                      <span key={item.size}>
+                      <p key={item.size} style={{display: "inline"}}>
                         <input className="catalog-item-radio visually-hidden" id={item.size} type="radio" name="sizes"/>
                         <label onClick={handleClick} className="catalog-item-size" htmlFor={item.size}>{item.size}</label>
-                      </span> 
-                      // Я маэстро семантики...
+                      </p> 
                     )
                   }
-
 								</p>
 								<p ref={quantityModule} style={{visibility: "hidden"}}>Количество:
 									<span className="btn-group btn-group-sm pl-2">
