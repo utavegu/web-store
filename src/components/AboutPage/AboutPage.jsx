@@ -2,7 +2,6 @@ import React from 'react'
 
 export default function AboutPage() {
   return (
-		/* Что за имя секции?! */
     <section className="top-sales"> 
 			<h2 className="text-center">О магазине</h2>
 			<p>В Интернете можно встретить немало магазинов, предлагающих аксессуары. Но именно к нам хочется

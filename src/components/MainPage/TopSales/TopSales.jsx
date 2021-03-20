@@ -23,11 +23,8 @@ export default function TopSales() {
     <section className="top-sales">
 			<h2 className="text-center">Хиты продаж!</h2>
 
-      
-			
       {(topItems.data.length === 0) ? <Preloader /> : <CatalogElements items={topItems.data} />}
       {topItems.hasError && <div style={{color: "red", backgroundColor: "yellow", textAlign: "center", padding: 30, margin: 30, fontSize: 26, fontWeight: "bold"}}>Ошибка загрузки данных (хиты продаж): {topItems.hasError.message}</div>}
-      {/* ВОТ ЭТУ БАТАРЕЮ НЕПЛОХО БЫ В УТИЛ УПИХАТЬ. КАК И ССЫЛКИ, ЕСЛИ С ЕНВ НЕ РАЗБЕРЕШЬСЯ */}
 		
 		</section>
   )

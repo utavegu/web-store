@@ -8,7 +8,6 @@ export default function CatalogSearch({onQuery: handleQuery}) {
     setQuery(target.value);
   }
 
-  // Пока так, но в итоге лучше с троттлингом и дебаунсом, чтобы отправлял сам последнее значение
   const handleSubmit = evt => {
     evt.preventDefault();
     handleQuery(query);

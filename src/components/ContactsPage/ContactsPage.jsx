@@ -2,7 +2,6 @@ import React from 'react'
 
 export default function ContactsPage() {
   return (
-		// вот опять этот прикол с названием секции...
 		<section className="top-sales">
 			<h2 className="text-center">Контакты</h2>
 			<p>Наш головной офис расположен в г.Москва, по адресу: Варшавское шоссе, д. 17, бизнес-центр W Plaza.</p>

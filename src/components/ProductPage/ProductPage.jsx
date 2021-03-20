@@ -1,16 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
 
-/* 
-- Так, вот надо, чтобы при заходе на эту страницу логотип не отваливался...
-
-- Тут вообще обёртка из каталог итема должна бы быть всегда, а прелоадер показывать внутри неё... В принципе в качестве костыля данному прелоадеру можно задать фиксированную высоту, равную высоте секции. Через инлайн стили. И чтобы ещё прямо в центре секции крутился
-
-- После нажатия на кнопку "В корзину" пользователь перемещается в страницу корзины /cart.html.
-(вот тут наверное запихивание в локалстрорэдж уже и пойдёт)
-
-- По уму надо бы содержимое секшена в отдельный компонент вынести, а то проблемы с отображением прелоадера и ошибки
-*/
-
 // Тебя тоже в утилджээс
 function Preloader() {
   return (
@@ -70,11 +59,6 @@ export default function ProductPage({match}) {
     if (addToCartButton.current.hasAttribute("disabled")) addToCartButton.current.removeAttribute("disabled");
     if (quantityModule.current.style.visibility === "hidden") quantityModule.current.style.visibility = "visible";
   }
-
-  // ВРЕМЕННО
-  // if (item) item.sizes.forEach(size => {
-  //   size.avalible = false;
-  // });
 
   return (
     (!item)
