@@ -583,9 +583,9 @@ section {
 }
 
 /* Bootstrap */
-.nav-link.active {
+/* .nav-link.active {
   color: #ff0000;
-}
+} */
 
 h2, .h2 {
   margin-bottom: 1.5em;
@@ -608,4 +608,20 @@ h2, .h2 {
   background: #727e86;
   border-radius: 15px;
   color: #fff;
+}
+
+.nav-link {
+  border: none;
+  color: darkgray;
+  background-color: transparent;
+}
+
+.nav-link:hover {
+  color: #1155bb;
+}
+
+.nav-link.active,
+.nav-link:active {
+  color: #ff0000;
+  outline: none;
 }

@@ -112,7 +112,7 @@ export default function Catalog(props) {
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
       {isCatalog && <CatalogSearch onQuery={handleQuery} />}
-      <CatalogCategories onChangeCategory={handleChangeCategory} />
+      <CatalogCategories onChangeCategory={handleChangeCategory} selectedCategory={urlParams.category} />
       {(!items) ? Preloader() : <CatalogElements items={shoes} />}
       {itemsError && FetchError(`Ошибка загрузки данных (товары каталога): ${itemsError.message}`)}
       <div className="text-center">
