@@ -1,23 +1,14 @@
 import React, {useState, useEffect, useRef} from 'react';
+import { FetchError, Preloader } from '../../common';
 import CatalogCategories from './CatalogCategories/CatalogCategories';
 import CatalogElements from './CatalogElements/CatalogElements';
 import CatalogSearch from './CatalogSearch';
 
-// Тебя тоже в утилджээс
-function Preloader() {
-  return (
-    <div className="preloader">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  )
-}
-
 export default function Catalog(props) {
   const [items, setItems] = useState(null);
 	const [itemsError, setItemsError] = useState(null);
+  const [itemsLoading, setItemsLoading] = useState(false);
+
   const [shoes, setShoes] = useState([]);
   const [urlParams, setUrlParams] = useState({
     category: 0,
@@ -29,10 +20,12 @@ export default function Catalog(props) {
   
   let itemsUrl = `http://localhost:7070/api/items?categoryId=${urlParams.category}&q=${urlParams.query}&offset=${urlParams.offset}`
 
+
   // Тащить данные с сервера по сформированному URL
 	useEffect(
 		() => {
 			const fetchData = async () => {
+        setItemsLoading(true);
 				try {
 					const response = await fetch(itemsUrl);
 					if (!response.ok) {
@@ -45,7 +38,10 @@ export default function Catalog(props) {
 				catch (e) {
 					setItemsError(e);
 					console.dir(e.message);
-				} 
+				}
+        finally {
+					setItemsLoading(false);
+				}
 			};
 			fetchData();
 		},
@@ -62,6 +58,7 @@ export default function Catalog(props) {
         } else {
           loadMoreButton.current.style.visibility = "visible";
         }
+        loadMoreButton.current.removeAttribute("disabled");
       }
     },
     [items]
@@ -97,9 +94,11 @@ export default function Catalog(props) {
 
   // Обработчик "Загрузить ещё"
   const handleOffset = () => {
+    if (!itemsLoading) loadMoreButton.current.setAttribute("disabled", "disabled");
     const newOffset = urlParams.offset + 6;
     setUrlParams(prevParams => ({...prevParams, offset: newOffset}));
   }
+
 
   // Отрисовка поисковой строки для экрана каталога
   let isCatalog;
@@ -111,23 +110,16 @@ export default function Catalog(props) {
 
   return (
     <section className="catalog">
- 
       <h2 className="text-center">Каталог</h2>
-
       {isCatalog && <CatalogSearch onQuery={handleQuery} />}
-
       <CatalogCategories onChangeCategory={handleChangeCategory} />
-
-      {(!shoes) ? <Preloader /> : <CatalogElements items={shoes} />}
-
-      {/* В компонент, в утил, стили в объект в утиле */}
-
-      {itemsError && <div style={{color: "red", backgroundColor: "yellow", textAlign: "center", padding: 30, margin: 30, fontSize: 26, fontWeight: "bold"}}>Ошибка загрузки данных (товары каталога): {itemsError.message}</div>}
-
+      {(!items) ? Preloader() : <CatalogElements items={shoes} />}
+      {itemsError && FetchError(`Ошибка загрузки данных (товары каталога): ${itemsError.message}`)}
       <div className="text-center">
-    	  <button onClick={handleOffset} ref={loadMoreButton} className="btn btn-outline-primary">Загрузить ещё</button>
+        <button onClick={handleOffset} ref={loadMoreButton} className="btn btn-outline-primary">
+          {(!items) ? Preloader() : "Загрузить ещё"}
+        </button>
       </div>
-
     </section>
   )
 }

@@ -1,17 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
-
-// Тебя тоже в утилджээс
-function Preloader() {
-  return (
-    <div className="preloader">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  )
-}
+import { FetchError, Preloader } from '../../../common';
 
 export default function CatalogCategories({onChangeCategory: handleChangeCategory}) {
 
@@ -52,7 +41,7 @@ export default function CatalogCategories({onChangeCategory: handleChangeCategor
     {
       (!categories)
       ?
-      <Preloader />
+      Preloader()
       : 
       <ul className="catalog-categories nav justify-content-center">
 
@@ -68,20 +57,7 @@ export default function CatalogCategories({onChangeCategory: handleChangeCategor
       </ul>
     }
 
-    {
-      categoriesError 
-      && 
-      <div style={{
-        color: "red", 
-        backgroundColor: "yellow", 
-        textAlign: "center", 
-        padding: 30, 
-        margin: 30, 
-        fontSize: 26, 
-        fontWeight: "bold"
-        }}>Ошибка загрузки данных (категории каталога): {categoriesError.message}
-      </div>
-    }
+    {categoriesError && FetchError(`Ошибка загрузки данных (категории каталога): ${categoriesError.message}`)}
 
     </>
   )

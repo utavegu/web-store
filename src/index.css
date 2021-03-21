@@ -176,6 +176,29 @@ section {
   }
 }
 
+/* Ну разные, так разные... */
+/* Для "Хитов продаж" */
+.top-sales .preloader :first-child,
+.top-sales .preloader :nth-child(3) {
+  background: red;
+}
+
+.top-sales .preloader :last-child,
+.top-sales .preloader :nth-child(2) {
+  background: blue;
+}
+
+/* Для "Каталога" */
+.catalog .preloader :first-child,
+.catalog .preloader :nth-child(3) {
+  background: yellow;
+}
+
+.catalog .preloader :last-child,
+.catalog .preloader :nth-child(2) {
+  background: green;
+}
+
 /* Top Sales */
 .top-sales {
   min-height: 300px;
