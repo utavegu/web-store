@@ -8,10 +8,8 @@ export default function CatalogCategories({onChangeCategory: handleChangeCategor
 
   const [categories, setCategories] = useState(null);
   const [categoriesError, setCategoriesError] = useState(null);
-
-  const handleClick = ({target}) => {
-    handleChangeCategory(target.textContent, categories);
-  }
+  const [allCategories, setAllCategories] = useState([{id: 11, title: "Все"}])
+  
 
   useEffect(
 		() => {
@@ -34,22 +32,28 @@ export default function CatalogCategories({onChangeCategory: handleChangeCategor
 		},
 		[CATALOG_CATEGORIES_LINK]
 	);
+
+  useEffect(
+    () => {
+      if (categories) setAllCategories((prev) => [...prev, ...categories]);
+    },
+    [categories]
+  );
+
+  const handleClick = ({target}) => {
+    handleChangeCategory(target.textContent, categories);
+  }
   
   return (
     <>
 
     {
-      (!categories)
+      (!allCategories)
       ?
       Preloader()
       : 
       <ul className="catalog-categories nav justify-content-center">
-
-        <li className="nav-item">
-          <Link onClick={handleClick} className="nav-link active" href="#">Все</Link>
-        </li>
-
-        {categories.map(category => 
+        {allCategories.map(category => 
         <li className="nav-item" key={category.id}>
           <Link onClick={handleClick} className="nav-link" href="#">{category.title}</Link>
         </li>

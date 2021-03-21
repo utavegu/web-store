@@ -4,11 +4,7 @@ import Context from '../contexts/Context';
 
 export default function PostsProvider(props) {
 
-  /*
-  Использование
-  const [, topItems] = useContext(Context);
-  И лучше не массивом, а объектом. Хотя, если он будет только для корзины - это не важно
-  */
+  // Использование: const [, topItems] = useContext(Context);
 
   const ALL_ITEMS_LINK = "http://localhost:7070/api/items";
   const TOP_SALES_LINK = "http://localhost:7070/api/top-sales";
@@ -18,8 +14,7 @@ export default function PostsProvider(props) {
   const topItems = useJsonFetch(TOP_SALES_LINK);
   const categories = useJsonFetch(CATALOG_CATEGORIES_LINK);
 
-
-  const allData = [allItems, topItems, categories];
+  const allData = {allItems, topItems, categories};
 
   return (
     <Context.Provider value={allData}>

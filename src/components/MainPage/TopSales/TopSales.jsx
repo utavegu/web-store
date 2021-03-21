@@ -1,17 +1,40 @@
-import React, {useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import { FetchError, Preloader } from '../../../common';
-import Context from '../../../contexts/Context';
 import CatalogElements from '../../Catalog/CatalogElements/CatalogElements';
 
 export default function TopSales() {
+  const [topSales, setTopSales] = useState(null);
+  const [topSalesError, setTopSalesError] = useState(null);
 
-  const [, topItems] = useContext(Context);
+  const TOP_SALES_LINK = "http://localhost:7070/api/top-sales";
+
+  useEffect(
+		() => {
+			const fetchData = async () => {
+				try {
+					const response = await fetch(TOP_SALES_LINK);
+					if (!response.ok) {
+						throw new Error(response.statusText);
+					}
+					const data = await response.json();
+					setTopSales(data);
+					setTopSalesError(null);
+				} 
+				catch (e) {
+					setTopSalesError(e);
+					console.dir(e.message);
+				} 
+			};
+			fetchData();
+		},
+		[TOP_SALES_LINK]
+	);
 
   return (
     <section className="top-sales">
 			<h2 className="text-center">Хиты продаж!</h2>
-      {(topItems.data.length === 0) ? Preloader() : <CatalogElements items={topItems.data} />}
-      {topItems.hasError && FetchError(`Ошибка загрузки данных (хиты продаж): ${topItems.hasError.message}`)}
+      {(!topSales) ? Preloader() : <CatalogElements items={topSales} />}
+      {topSalesError && FetchError(`Ошибка загрузки данных (хиты продаж): ${topSalesError.message}`)}
 		</section>
   )
 }
