@@ -17,7 +17,7 @@ function Preloader() {
 
 export default function Catalog(props) {
   const [items, setItems] = useState(null);
-	const [itemsError, setItemsError] = useState(null);
+	// const [itemsError, setItemsError] = useState(null);
   const [shoes, setShoes] = useState([]);
   const [urlParams, setUrlParams] = useState({
     category: 0,
@@ -26,7 +26,6 @@ export default function Catalog(props) {
   })
   
   let itemsUrl = `http://localhost:7070/api/items?categoryId=${urlParams.category}&q=${urlParams.query}&offset=${urlParams.offset}`
-
 
   // Тащить данные с сервера по сформированному URL
 	useEffect(
@@ -39,10 +38,10 @@ export default function Catalog(props) {
 					}
 					const data = await response.json();
 					setItems(data);
-					setItemsError(null);
+					// setItemsError(null);
 				} 
 				catch (e) {
-					setItemsError(e);
+					// setItemsError(e);
 					console.dir(e.message);
 				} 
 			};
@@ -54,6 +53,7 @@ export default function Catalog(props) {
   // Набиваем массив для обуви тем, что пришло с сервера. Дополняя то, что уже было
   useEffect(
     () => {
+      // console.log(items.length);
       if (items) setShoes((prevShoes) => [...prevShoes, ...items]);
       // Вот тут же можно и кнопочку спрятать, если меньше 5 пришло
     },
@@ -79,6 +79,7 @@ export default function Catalog(props) {
       let result = allCategories.find(category => category.title.toLowerCase() === categoryName.toLowerCase());
       categoryId = result.id;
     }
+    setUrlParams(prevParams => ({...prevParams, offset: 0}));
     setUrlParams(prevParams => ({...prevParams, category: categoryId}));
   }
 
@@ -103,27 +104,29 @@ export default function Catalog(props) {
 
 
   // ОТЛАДКА
-  // console.log(shoes);
+  console.log(urlParams);
 
 
   return (
     <section className="catalog">
-
+ 
       <h2 className="text-center">Каталог</h2>
 
       {isCatalog && <CatalogSearch onQuery={handleQuery} />}
 
       <CatalogCategories onChangeCategory={handleChangeCategory} />
 
-      {(!items) ? <Preloader /> : <CatalogElements items={shoes} />}
+      {(!shoes) ? <Preloader /> : <CatalogElements items={shoes} />}
 
       {/* В компонент, в утил, стили в объект в утиле */}
+{/* 
       {itemsError && <div style={{color: "red", backgroundColor: "yellow", textAlign: "center", padding: 30, margin: 30, fontSize: 26, fontWeight: "bold"}}>Ошибка загрузки данных (товары каталога): {itemsError.message}</div>}
-    
+*/}
+     
       <div className="text-center">
     	  <button onClick={handleOffset} className="btn btn-outline-primary">Загрузить ещё</button>
       </div>
-      
+
     </section>
   )
 }
