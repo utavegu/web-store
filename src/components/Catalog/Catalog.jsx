@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import CatalogCategories from './CatalogCategories/CatalogCategories';
 import CatalogElements from './CatalogElements/CatalogElements';
 import CatalogSearch from './CatalogSearch';
@@ -17,13 +17,15 @@ function Preloader() {
 
 export default function Catalog(props) {
   const [items, setItems] = useState(null);
-	// const [itemsError, setItemsError] = useState(null);
+	const [itemsError, setItemsError] = useState(null);
   const [shoes, setShoes] = useState([]);
   const [urlParams, setUrlParams] = useState({
     category: 0,
     query: '',
     offset: 0,
   })
+
+  const loadMoreButton = useRef(null);
   
   let itemsUrl = `http://localhost:7070/api/items?categoryId=${urlParams.category}&q=${urlParams.query}&offset=${urlParams.offset}`
 
@@ -38,10 +40,10 @@ export default function Catalog(props) {
 					}
 					const data = await response.json();
 					setItems(data);
-					// setItemsError(null);
+					setItemsError(null);
 				} 
 				catch (e) {
-					// setItemsError(e);
+					setItemsError(e);
 					console.dir(e.message);
 				} 
 			};
@@ -53,9 +55,14 @@ export default function Catalog(props) {
   // Набиваем массив для обуви тем, что пришло с сервера. Дополняя то, что уже было
   useEffect(
     () => {
-      // console.log(items.length);
-      if (items) setShoes((prevShoes) => [...prevShoes, ...items]);
-      // Вот тут же можно и кнопочку спрятать, если меньше 5 пришло
+      if (items) {
+        setShoes((prevShoes) => [...prevShoes, ...items]);
+        if (items.length < 6) {
+          loadMoreButton.current.style.visibility = "hidden";
+        } else {
+          loadMoreButton.current.style.visibility = "visible";
+        }
+      }
     },
     [items]
   );
@@ -63,8 +70,8 @@ export default function Catalog(props) {
   // При смене категории или поискового запроса сбросить офсет и обнулить массив с обувью
   useEffect(
     () => {
-      setUrlParams(prevParams => ({...prevParams, offset: 0}));
       setShoes([]);
+      setUrlParams(prevParams => ({...prevParams, offset: 0}));
     },
     [urlParams.category, urlParams.query]
   );
@@ -79,8 +86,8 @@ export default function Catalog(props) {
       let result = allCategories.find(category => category.title.toLowerCase() === categoryName.toLowerCase());
       categoryId = result.id;
     }
-    setUrlParams(prevParams => ({...prevParams, offset: 0}));
     setUrlParams(prevParams => ({...prevParams, category: categoryId}));
+    setUrlParams(prevParams => ({...prevParams, offset: 0}));
   }
 
   // Обработчик поискового запроса
@@ -102,11 +109,6 @@ export default function Catalog(props) {
     // Лучшее, до чего я додумался =) (чтобы поиск отображался только на экране каталога)
   }
 
-
-  // ОТЛАДКА
-  console.log(urlParams);
-
-
   return (
     <section className="catalog">
  
@@ -119,12 +121,11 @@ export default function Catalog(props) {
       {(!shoes) ? <Preloader /> : <CatalogElements items={shoes} />}
 
       {/* В компонент, в утил, стили в объект в утиле */}
-{/* 
+
       {itemsError && <div style={{color: "red", backgroundColor: "yellow", textAlign: "center", padding: 30, margin: 30, fontSize: 26, fontWeight: "bold"}}>Ошибка загрузки данных (товары каталога): {itemsError.message}</div>}
-*/}
-     
+
       <div className="text-center">
-    	  <button onClick={handleOffset} className="btn btn-outline-primary">Загрузить ещё</button>
+    	  <button onClick={handleOffset} ref={loadMoreButton} className="btn btn-outline-primary">Загрузить ещё</button>
       </div>
 
     </section>
