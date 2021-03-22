@@ -1,5 +1,6 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import { FetchError, Preloader } from '../../common';
+import Context from '../../contexts/Context';
 import CatalogCategories from './CatalogCategories/CatalogCategories';
 import CatalogElements from './CatalogElements/CatalogElements';
 import CatalogSearch from './CatalogSearch';
@@ -10,11 +11,14 @@ export default function Catalog(props) {
   const [itemsLoading, setItemsLoading] = useState(false);
 
   const [shoes, setShoes] = useState([]);
-  const [urlParams, setUrlParams] = useState({
-    category: 0,
-    query: '',
-    offset: 0,
-  })
+
+  const {urlParams, setUrlParams} = useContext(Context);
+  // Тоже пока оставлю на всякий случай
+  // const [urlParams, setUrlParams] = useState({
+  //   category: 0,
+  //   query: '',
+  //   offset: 0,
+  // })
 
   const loadMoreButton = useRef(null);
   
@@ -101,6 +105,7 @@ export default function Catalog(props) {
 
 
   // Отрисовка поисковой строки для экрана каталога
+  // Вот думаю не проще ли тут было через юзМатч сделать или как там... Ну точнее лучше в учебных целях
   let isCatalog;
   try {
     isCatalog = props.match.path;
