@@ -8,12 +8,12 @@ export default function CatalogSearch({onQuery: handleQuery}) {
   // const [query, setQuery] = useState("");
 
   const handleChange = ({target}) => {
-    setQuery(target.value.trim());
+    setQuery(target.value);
   }
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    handleQuery(query);
+    handleQuery(query.trim());
   }
 
   return (
