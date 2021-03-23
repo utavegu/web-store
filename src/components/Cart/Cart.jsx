@@ -1,7 +1,14 @@
 import React from 'react'
+import TableRow from './TableRow';
 
 export default function Cart() {
 	/* В принципе можно разбить на 2 компонента, но пока не вижу смысла */
+  const getCartData = () => JSON.parse(localStorage.getItem('cart'));
+
+  const basketGoods = getCartData();
+  
+  console.log(basketGoods);
+
   return (
 		<>
 
@@ -20,18 +27,10 @@ export default function Cart() {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td><a href="/products/1.html">Босоножки 'MYER'</a></td>
-							<td>18 US</td>
-							<td>1</td>
-							<td>34 000 руб.</td>
-							<td>34 000 руб.</td>
-							<td><button className="btn btn-outline-danger btn-sm">Удалить</button></td>
-						</tr>
+						<TableRow {...basketGoods}/>
 						<tr>
 							<td colSpan="5" className="text-right">Общая стоимость</td>
-							<td>34 000 руб.</td>
+							<td>Сумма всех "Итого"</td>
 						</tr>
 					</tbody>
 				</table>

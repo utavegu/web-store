@@ -1,19 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
+import { Preloader } from '../../common';
 
-// Тебя тоже в утилджээс
-function Preloader() {
-  return (
-    <div className="preloader">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  )
-}
-
-export default function ProductPage({match}) {
-  
+export default function ProductPage({match, history}) {  
   const itemUrl = `http://localhost:7070/api/items/${match.params.id}`;
 
   const [item, setItem] = useState(null);
@@ -55,15 +43,34 @@ export default function ProductPage({match}) {
     if (quantity <= 0) setQuantity(0);
   }
 
-  const handleClick = () => {
-    if (addToCartButton.current.hasAttribute("disabled")) addToCartButton.current.removeAttribute("disabled");
+  let selectedSize;
+
+  const handleChoice = ({target}) => {
+    selectedSize = target.textContent;
+    if (addToCartButton.current.style.visibility === "hidden") addToCartButton.current.style.visibility = "visible";
     if (quantityModule.current.style.visibility === "hidden") quantityModule.current.style.visibility = "visible";
   }
+
+  const setCartData = (itemList) => localStorage.setItem('cart', JSON.stringify(itemList));
+
+  const handleAdd = () => {
+    const objectForBasket = {
+      id: item.id,
+      name: item.title,
+      price: item.price,
+      size: selectedSize,
+      quantity,
+    }
+    setCartData(objectForBasket);
+    history.push("/cart");
+  }
+
+  console.log(quantity);
 
   return (
     (!item)
     ?
-    <Preloader />
+    Preloader()
     :
 		<section className="catalog-item">
 			<h2 className="text-center">{item.title}</h2>
@@ -102,17 +109,17 @@ export default function ProductPage({match}) {
 							</tbody>
 						</table>
 							<div className="text-center">
-								<p>Размеры в наличии: 
+								<div>Размеры в наличии: 
                   {item.sizes
                     .filter(size => size.avalible)
                     .map(item =>
-                      <p key={item.size} style={{display: "inline"}}>
+                      <p key={item.size} style={{display: "inline-block"}}>
                         <input className="catalog-item-radio visually-hidden" id={item.size} type="radio" name="sizes"/>
-                        <label onClick={handleClick} className="catalog-item-size" htmlFor={item.size}>{item.size}</label>
+                        <label onClick={handleChoice} className="catalog-item-size" htmlFor={item.size}>{item.size}</label>
                       </p> 
                     )
                   }
-								</p>
+								</div>
 								<p ref={quantityModule} style={{visibility: "hidden"}}>Количество:
 									<span className="btn-group btn-group-sm pl-2">
 										<button onClick={handleDecrement} className="btn btn-secondary">-</button>
@@ -121,7 +128,7 @@ export default function ProductPage({match}) {
 									</span>
 								</p>
 							</div>
-							<button ref={addToCartButton} className="btn btn-danger btn-block btn-lg" disabled>В корзину</button>
+							<button onClick={handleAdd} ref={addToCartButton} style={{visibility: "hidden"}} className="btn btn-danger btn-block btn-lg">В корзину</button>
 					</div>
 			</div>
 		</section>
