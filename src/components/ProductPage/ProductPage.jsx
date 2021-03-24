@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { Preloader } from '../../common';
+import { getCartData, Preloader, setCartData } from '../../common';
 
 export default function ProductPage({match, history}) {  
   const itemUrl = `http://localhost:7070/api/items/${match.params.id}`;
@@ -50,25 +50,19 @@ export default function ProductPage({match, history}) {
     if (quantityModule.current.style.visibility === "hidden") quantityModule.current.style.visibility = "visible";
   }
 
-  const setCartData = (itemList) => localStorage.setItem('cart', JSON.stringify(itemList));
-  const getCartData = () => JSON.parse(localStorage.getItem('cart')); // Применяется больше чем в одном месте
-
   const handleAdd = () => {
-    // ПЕРЕИМЕНУЙ ПЕРЕМЕННЫЕ
-    const objectForBasket = getCartData() || [];
-    const TEST = {
+    const productList = getCartData() || [];
+    const productItem = {
       id: item.id,
       name: item.title,
       price: item.price,
       size: selectedSize.current,
       quantity,
     }
-    objectForBasket.push(TEST);
-    setCartData(objectForBasket);
+    productList.push(productItem);
+    setCartData(productList);
     history.push("/cart");
   }
-
-
 
   return (
     (!item)

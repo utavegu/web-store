@@ -27,4 +27,8 @@ function FetchError(props) {
   )
 }
 
-export {Preloader, FetchError};
+const setCartData = (itemList) => localStorage.setItem('cart', JSON.stringify(itemList));
+
+const getCartData = () => JSON.parse(localStorage.getItem('cart'));
+
+export {Preloader, FetchError, setCartData, getCartData};

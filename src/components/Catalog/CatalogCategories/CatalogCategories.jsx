@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
 import { FetchError, Preloader } from '../../../common';
 
 export default function CatalogCategories({onChangeCategory: handleChangeCategory, selectedCategory}) {
@@ -29,7 +28,7 @@ export default function CatalogCategories({onChangeCategory: handleChangeCategor
 			};
 			fetchData();
 		},
-		[CATALOG_CATEGORIES_LINK]
+		[]
 	);
 
   useEffect(

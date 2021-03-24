@@ -1,17 +1,22 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import { getCartData, setCartData } from '../../common';
 import TableRow from './TableRow';
 
 export default function Cart() {
 	/* В принципе можно разбить на 2 компонента, но пока не вижу смысла */
-  const getCartData = () => JSON.parse(localStorage.getItem('cart'));
 
-  const basketGoods = getCartData();
-  
-  // console.log(basketGoods);
+  const [productList, setProductList] = useState(getCartData());
 
-  const total = basketGoods
+  const handleRemove = orderNumber => {
+    setProductList(prevList => prevList.filter((_, currentId) => currentId !== orderNumber));
+    setCartData(productList.filter((_, currentId) => currentId !== orderNumber));
+  }
+
+  const total = productList
     .map(elem => elem.price * elem.quantity)
     .reduce((sum, elem) => sum + elem, 0);
+
+  console.log(getCartData());
 
   return (
 		<>
@@ -31,7 +36,12 @@ export default function Cart() {
 						</tr>
 					</thead>
 					<tbody>
-            {basketGoods.map((item, id) => <TableRow key={id} orderNumber={id} {...item}/>)}
+            {productList.map((item, id) => <TableRow 
+              onRemove={handleRemove}
+              key={id}
+              orderNumber={id}
+              {...item}
+            />)}
 						<tr>
 							<td colSpan="5" className="text-right">Общая стоимость</td>
 							<td>{total} руб.</td>

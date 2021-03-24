@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getCartData, setCartData } from '../../common';
 
 export default function TableRow(props) {
-  const linkToProduct = `/catalog/${props.id}`
-  // Так, тут наверное обджект асссайн нужно сделать, ибо изменяю пропсы... хотя не изменяю же.. Не, теперь вот изменяю... Спроси у Макса про эту концепцию, как он её понимает.
+  const linkToProduct = `/catalog/${props.id}`;
+  const {onRemove: handleRemove} = props;
 
   return (
     <tr>
@@ -13,7 +14,7 @@ export default function TableRow(props) {
       <td>{props.quantity}</td>
       <td>{props.price} руб.</td>
       <td>{props.price * props.quantity} руб.</td>
-      <td><button className="btn btn-outline-danger btn-sm">Удалить</button></td>
+      <td><button onClick={() => handleRemove(props.orderNumber)} className="btn btn-outline-danger btn-sm">Удалить</button></td>
     </tr>
   )
 }

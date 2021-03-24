@@ -1,11 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import Context from '../../contexts/Context';
 
 export default function CatalogSearch({onQuery: handleQuery}) {
 
   const {query, setQuery} = useContext(Context);
-  // Перенес строку поиска в глобальный контекст
-  // const [query, setQuery] = useState("");
 
   const handleChange = ({target}) => {
     setQuery(target.value);
