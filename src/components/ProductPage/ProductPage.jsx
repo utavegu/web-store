@@ -32,6 +32,7 @@ export default function ProductPage({match, history}) {
 
   const addToCartButton = useRef(null);
   const quantityModule = useRef(null);
+  let selectedSize = useRef(null);
 
   const handleIncrement = () => {
     setQuantity(prevQuantity=> prevQuantity + 1);
@@ -43,29 +44,31 @@ export default function ProductPage({match, history}) {
     if (quantity <= 0) setQuantity(0);
   }
 
-  let selectedSize;
-
   const handleChoice = ({target}) => {
-    selectedSize = target.textContent;
+    selectedSize.current = target.textContent;
     if (addToCartButton.current.style.visibility === "hidden") addToCartButton.current.style.visibility = "visible";
     if (quantityModule.current.style.visibility === "hidden") quantityModule.current.style.visibility = "visible";
   }
 
   const setCartData = (itemList) => localStorage.setItem('cart', JSON.stringify(itemList));
+  const getCartData = () => JSON.parse(localStorage.getItem('cart')); // Применяется больше чем в одном месте
 
   const handleAdd = () => {
-    const objectForBasket = {
+    // ПЕРЕИМЕНУЙ ПЕРЕМЕННЫЕ
+    const objectForBasket = getCartData() || [];
+    const TEST = {
       id: item.id,
       name: item.title,
       price: item.price,
-      size: selectedSize,
+      size: selectedSize.current,
       quantity,
     }
+    objectForBasket.push(TEST);
     setCartData(objectForBasket);
     history.push("/cart");
   }
 
-  console.log(quantity);
+
 
   return (
     (!item)

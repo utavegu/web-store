@@ -7,7 +7,11 @@ export default function Cart() {
 
   const basketGoods = getCartData();
   
-  console.log(basketGoods);
+  // console.log(basketGoods);
+
+  const total = basketGoods
+    .map(elem => elem.price * elem.quantity)
+    .reduce((sum, elem) => sum + elem, 0);
 
   return (
 		<>
@@ -27,10 +31,10 @@ export default function Cart() {
 						</tr>
 					</thead>
 					<tbody>
-						<TableRow {...basketGoods}/>
+            {basketGoods.map((item, id) => <TableRow key={id} orderNumber={id} {...item}/>)}
 						<tr>
 							<td colSpan="5" className="text-right">Общая стоимость</td>
-							<td>Сумма всех "Итого"</td>
+							<td>{total} руб.</td>
 						</tr>
 					</tbody>
 				</table>
