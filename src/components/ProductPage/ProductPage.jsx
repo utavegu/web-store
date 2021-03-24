@@ -59,8 +59,26 @@ export default function ProductPage({match, history}) {
       size: selectedSize.current,
       quantity,
     }
-    productList.push(productItem);
-    setCartData(productList);
+    let isSameShoes = false;
+    productList.forEach(element => {
+      if (
+        (element.id === productItem.id)
+        &&
+        (element.name === productItem.name)
+        &&
+        (element.price === productItem.price)
+        &&
+        (element.size === productItem.size)
+      ) {
+        isSameShoes = true;
+        element.quantity += productItem.quantity;
+        setCartData(productList);
+      }
+    });
+    if (!isSameShoes) {
+      productList.push(productItem);
+      setCartData(productList);
+    }
     history.push("/cart");
   }
 

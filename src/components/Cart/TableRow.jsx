@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getCartData, setCartData } from '../../common';
 
 export default function TableRow(props) {
   const linkToProduct = `/catalog/${props.id}`;

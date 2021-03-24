@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState } from 'react'
 import { getCartData, setCartData } from '../../common';
 import TableRow from './TableRow';
 
@@ -16,7 +16,7 @@ export default function Cart() {
     .map(elem => elem.price * elem.quantity)
     .reduce((sum, elem) => sum + elem, 0);
 
-  console.log(getCartData());
+  // console.log(getCartData());
 
   return (
 		<>
