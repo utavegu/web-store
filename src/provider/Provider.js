@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { getCartData } from '../common';
 import Context from '../contexts/Context';
 
 export default function PostsProvider(props) {
@@ -9,10 +10,12 @@ export default function PostsProvider(props) {
     query: '',
     offset: 0,
   })
+  const [productList, setProductList] = useState(getCartData());
 
   const allData = {
     query, setQuery,
     urlParams, setUrlParams,
+    productList, setProductList,
   };
 
   return (

@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { getCartData, setCartData } from '../../common';
+import Context from '../../contexts/Context';
 import TableRow from './TableRow';
 
 export default function Cart() {
 	/* В принципе можно разбить на 2 компонента, но пока не вижу смысла */
 
-  const [productList, setProductList] = useState(getCartData());
+  const {productList, setProductList} = useContext(Context);
 
   const handleRemove = orderNumber => {
     setProductList(prevList => prevList.filter((_, currentId) => currentId !== orderNumber));
@@ -16,11 +17,9 @@ export default function Cart() {
     .map(elem => elem.price * elem.quantity)
     .reduce((sum, elem) => sum + elem, 0);
 
-  // console.log(getCartData());
-
   return (
 		<>
-
+    
 		  <section className="cart">
 				<h2 className="text-center">Корзина</h2>
 				<table className="table table-bordered">

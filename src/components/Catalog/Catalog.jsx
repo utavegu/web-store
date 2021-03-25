@@ -9,17 +9,8 @@ export default function Catalog(props) {
   const [items, setItems] = useState(null);
 	const [itemsError, setItemsError] = useState(null);
   const [itemsLoading, setItemsLoading] = useState(false);
-
   const [shoes, setShoes] = useState([]);
-
   const {urlParams, setUrlParams} = useContext(Context);
-  // Тоже пока оставлю на всякий случай
-  // const [urlParams, setUrlParams] = useState({
-  //   category: 0,
-  //   query: '',
-  //   offset: 0,
-  // })
-
   const loadMoreButton = useRef(null);
   
   let itemsUrl = `http://localhost:7070/api/items?categoryId=${urlParams.category}&q=${urlParams.query}&offset=${urlParams.offset}`
@@ -105,7 +96,6 @@ export default function Catalog(props) {
 
 
   // Отрисовка поисковой строки для экрана каталога
-  // Вот думаю не проще ли тут было через юзМатч сделать или как там... Ну точнее лучше в учебных целях
   let isCatalog;
   try {
     isCatalog = props.match.path;

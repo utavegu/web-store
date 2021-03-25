@@ -48,6 +48,7 @@ section {
 .header-controls-pics {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   max-width: 280px;
   margin-left: auto;
 }

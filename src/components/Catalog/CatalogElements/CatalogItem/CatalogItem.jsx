@@ -1,12 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import noPhoto from '../../../../img/noimage2.png';
+import { checkImage } from '../../../../common';
 
 export default function CatalogItem({item}) {
-  const checkImage = ({target}) => {
-    target.src = noPhoto;
-  }
-
 	return (
 		<div className="col-4">
 			<div className="card catalog-item-card">

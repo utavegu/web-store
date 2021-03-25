@@ -1,3 +1,5 @@
+import noPhoto from './img/noimage2.png';
+
 function Preloader() {
   return (
     <div className="preloader">
@@ -31,4 +33,8 @@ const setCartData = (itemList) => localStorage.setItem('cart', JSON.stringify(it
 
 const getCartData = () => JSON.parse(localStorage.getItem('cart'));
 
-export {Preloader, FetchError, setCartData, getCartData};
+const checkImage = ({target}) => {
+  target.src = noPhoto;
+}
+
+export {Preloader, FetchError, setCartData, getCartData, checkImage};

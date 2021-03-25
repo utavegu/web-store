@@ -1,6 +1,7 @@
 import React, { useState, useContext, useRef } from 'react';
 import { useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
+import { getCartData } from '../../common';
 import Context from '../../contexts/Context';
 
 export default function HeaderControls() {
@@ -40,7 +41,9 @@ export default function HeaderControls() {
   }
 
   // ЛОГИКА КОРЗИНЫ
-
+  const quantityInCart = getCartData()
+  .map(elem => elem.quantity)
+  .reduce((sum, elem) => sum + elem, 0);
 
   return (
     <div>
@@ -48,7 +51,7 @@ export default function HeaderControls() {
         <div onClick={handleSearchIcon} data-id="search-expander" className="header-controls-pic header-controls-search"></div>
         <NavLink to="/cart" className="nav-link">
           <div className="header-controls-pic header-controls-cart">
-            <div className="header-controls-cart-full">1</div>
+            {(quantityInCart) ? <div className="header-controls-cart-full">{quantityInCart}</div> : null}
             <div className="header-controls-cart-menu"></div>
           </div>
         </NavLink>
