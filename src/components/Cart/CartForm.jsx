@@ -17,6 +17,11 @@ export default function CartForm({onSend: handleSend}) {
   const handleSubmit = evt => {
     evt.preventDefault();
     handleSend(form);
+    setForm({
+      phone: '',
+      address: '',
+      agreement: false,
+    })
   }
 
   return (

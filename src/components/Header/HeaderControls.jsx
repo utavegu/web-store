@@ -41,10 +41,17 @@ export default function HeaderControls() {
   }
 
   // ЛОГИКА КОРЗИНЫ
-  const quantityInCart = getCartData()
-  .map(elem => elem.quantity)
-  .reduce((sum, elem) => sum + elem, 0);
+  let quantityInCart;
+  (getCartData() !== null)
+  ?
+  quantityInCart = getCartData()
+    .map(elem => elem.quantity)
+    .reduce((sum, elem) => sum + elem, 0)
+  :
+  quantityInCart = false;
 
+  // В принципе можно пошаманить с помощью флекс-ордера и разбить на 2 компонента, но пускай будет так
+  
   return (
     <div>
       <div className="header-controls-pics">

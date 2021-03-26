@@ -12,9 +12,14 @@ export default function CartTable() {
     setCartData(productList.filter((_, currentId) => currentId !== orderNumber));
   }
 
-  const total = productList
+  let total;
+  (getCartData() !== null)
+  ?
+  total = productList
     .map(elem => elem.price * elem.quantity)
-    .reduce((sum, elem) => sum + elem, 0);
+    .reduce((sum, elem) => sum + elem, 0)
+  :
+  total = 0;
 
   return (
     <section className="cart">
@@ -32,12 +37,16 @@ export default function CartTable() {
           </tr>
         </thead>
         <tbody>
-          {productList.map((item, id) => <TableRow 
-            onRemove={handleRemove}
-            key={id}
-            orderNumber={id}
-            {...item}
-          />)}
+          {
+            productList 
+            &&
+            productList.map((item, id) => <TableRow 
+              onRemove={handleRemove}
+              key={id}
+              orderNumber={id}
+              {...item}
+            />)
+          }
           <tr>
             <td colSpan="5" className="text-right">Общая стоимость</td>
             <td>{total} руб.</td>
