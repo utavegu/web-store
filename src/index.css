@@ -201,9 +201,11 @@ section {
 }
 
 /* Top Sales */
+/* 
 .top-sales {
-  min-height: 300px;
+  min-height: 300px; 
 }
+*/
 
 /* Catalog */
 .catalog {
@@ -459,9 +461,11 @@ section {
 }
 
 /* Top Sales */
+/*
 .top-sales {
-  min-height: 300px;
+   min-height: 300px; 
 }
+*/
 
 /* Catalog */
 .catalog {

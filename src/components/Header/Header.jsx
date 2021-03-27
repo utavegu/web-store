@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import HeaderControls from './HeaderControls';
 import HeaderMenu from './HeaderMenu';
+import logo from '../../img/header-logo.png';
 
 export default function Header() {
   return (
@@ -10,7 +11,7 @@ export default function Header() {
 				<div className="col">
 					<nav className="navbar navbar-expand-sm navbar-light bg-light">
             <NavLink to="/" className="navbar-brand" exact>
-              <img src="./img/header-logo.png" alt="Bosa Noga" />
+              <img src={logo} alt="Bosa Noga" />
             </NavLink>
 						<div className="collapase navbar-collapse" id="navbarMain">
 							<HeaderMenu />

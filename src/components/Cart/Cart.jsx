@@ -43,7 +43,7 @@ export default function Cart() {
         localStorage.removeItem('cart');
         setProductList([]);
         setSendSuccess(true);
-        setTimeout(() => history.push('/'), 5000);
+        setTimeout(() => history.push('/'), 3000);
       };
       if (!response.ok) {
         throw new Error(response.statusText);
