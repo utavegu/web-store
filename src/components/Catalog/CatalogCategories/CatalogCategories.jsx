@@ -39,11 +39,14 @@ export default function CatalogCategories({onChangeCategory: handleChangeCategor
   );
 
   const handleClick = ({target}) => {
-    handleChangeCategory(target.textContent, categories);
+    if (target.className !== "nav-link active") {
+      handleChangeCategory(target.textContent, categories);
+    }
   }
   
   return (
     <>
+    {categoriesError && FetchError(`Ошибка загрузки данных (категории каталога): ${categoriesError.message}`)}
     {
       (!allCategories) ? Preloader() : 
       <ul className="catalog-categories nav justify-content-center">
@@ -60,7 +63,6 @@ export default function CatalogCategories({onChangeCategory: handleChangeCategor
       )}
       </ul>
     }
-    {categoriesError && FetchError(`Ошибка загрузки данных (категории каталога): ${categoriesError.message}`)}
     </>
   )
 }

@@ -108,8 +108,8 @@ export default function Catalog(props) {
       <h2 className="text-center">Каталог</h2>
       {isCatalog && <CatalogSearch onQuery={handleQuery} />}
       <CatalogCategories onChangeCategory={handleChangeCategory} selectedCategory={urlParams.category} />
-      {(!items) ? Preloader() : <CatalogElements items={shoes} />}
       {itemsError && FetchError(`Ошибка загрузки данных (товары каталога): ${itemsError.message}`)}
+      {(!items) ? Preloader() :  <CatalogElements items={shoes} />}
       <div className="text-center">
         <button onClick={handleOffset} ref={loadMoreButton} className="btn btn-outline-primary">
           {(!items) ? Preloader() : "Загрузить ещё"}
