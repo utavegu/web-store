@@ -38,7 +38,7 @@ export default function CartTable() {
         </thead>
         <tbody>
           {
-            productList 
+            (productList)
             &&
             productList.map((item, id) => <TableRow 
               onRemove={handleRemove}

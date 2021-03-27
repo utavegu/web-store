@@ -38,6 +38,8 @@ export default function CartForm({onSend: handleSend}) {
               className="form-control"
               id="phone"
               placeholder="Ваш телефон"
+              pattern="^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$"
+              required
             />
           </div>
           <div className="form-group">
@@ -49,6 +51,7 @@ export default function CartForm({onSend: handleSend}) {
               className="form-control"
               id="address"
               placeholder="Адрес доставки"
+              required
             />
           </div>
           <div className="form-group form-check">
