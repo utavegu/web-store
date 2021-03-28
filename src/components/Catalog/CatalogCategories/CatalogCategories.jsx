@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { FetchError, Preloader } from '../../../common';
+import PropTypes from 'prop-types';
 
-export default function CatalogCategories({onChangeCategory: handleChangeCategory, selectedCategory}) {
+function CatalogCategories({onChangeCategory: handleChangeCategory, selectedCategory}) {
 
   const CATALOG_CATEGORIES_LINK = "http://localhost:7070/api/categories";
 
@@ -66,3 +67,10 @@ export default function CatalogCategories({onChangeCategory: handleChangeCategor
     </>
   )
 }
+
+CatalogCategories.propTypes = {
+  onChangeCategory: PropTypes.func.isRequired,
+  selectedCategory: PropTypes.number.isRequired,
+};
+
+export default CatalogCategories;

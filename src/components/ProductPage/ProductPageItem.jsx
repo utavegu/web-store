@@ -1,8 +1,9 @@
 import React, {useState, useRef, useContext} from 'react';
 import { getCartData, setCartData, checkImage } from '../../common';
 import Context from '../../contexts/Context';
+import PropTypes from 'prop-types';
 
-export default function ProductPageItem({item, history}) {
+function ProductPageItem({item, history}) {
 
   const {setProductList} = useContext(Context);
   const [quantity, setQuantity] = useState(1);
@@ -128,3 +129,21 @@ export default function ProductPageItem({item, history}) {
 		</section>
   )
 }
+
+ProductPageItem.propTypes = {
+  history: PropTypes.object.isRequired,
+  item: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    images: PropTypes.arrayOf(PropTypes.string),
+    sku: PropTypes.string,
+    manufacturer: PropTypes.string,
+    color: PropTypes.string,
+    material: PropTypes.string,
+    season: PropTypes.string,
+    reason: PropTypes.string,
+  }),
+};
+
+export default ProductPageItem;

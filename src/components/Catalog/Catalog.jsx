@@ -4,8 +4,9 @@ import Context from '../../contexts/Context';
 import CatalogCategories from './CatalogCategories/CatalogCategories';
 import CatalogElements from './CatalogElements/CatalogElements';
 import CatalogSearch from './CatalogSearch';
+import PropTypes from 'prop-types';
 
-export default function Catalog(props) {
+function Catalog(props) {
   const [items, setItems] = useState(null);
 	const [itemsError, setItemsError] = useState(null);
   const [itemsLoading, setItemsLoading] = useState(false);
@@ -118,3 +119,9 @@ export default function Catalog(props) {
     </section>
   )
 }
+
+Catalog.propTypes = {
+  match: PropTypes.object,
+};
+
+export default Catalog;

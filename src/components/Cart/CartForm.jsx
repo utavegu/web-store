@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 
-export default function CartForm({onSend: handleSend}) {
+function CartForm({onSend: handleSend}) {
 
   let [form, setForm] = useState({
     phone: '',
@@ -72,3 +73,9 @@ export default function CartForm({onSend: handleSend}) {
     </section> 
   )
 }
+
+CartForm.propTypes = {
+  onSend: PropTypes.func.isRequired,
+};
+
+export default CartForm

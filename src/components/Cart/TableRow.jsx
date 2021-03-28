@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-export default function TableRow(props) {
+function TableRow(props) {
   const linkToProduct = `/catalog/${props.id}`;
   const {onRemove: handleRemove} = props;
 
@@ -17,3 +18,15 @@ export default function TableRow(props) {
     </tr>
   )
 }
+
+TableRow.propTypes = {
+  onRemove: PropTypes.func.isRequired,
+  orderNumber: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  quantity: PropTypes.number.isRequired,
+  size: PropTypes.string.isRequired,
+};
+
+export default TableRow;

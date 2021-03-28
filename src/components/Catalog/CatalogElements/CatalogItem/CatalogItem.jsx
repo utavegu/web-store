@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { checkImage } from '../../../../common';
+import PropTypes from 'prop-types';
 
-export default function CatalogItem({item}) {
+function CatalogItem({item}) {
 	return (
 		<div className="col-4">
 			<div className="card catalog-item-card">
@@ -23,3 +24,14 @@ export default function CatalogItem({item}) {
 		</div>
 	)
 }
+
+CatalogItem.propTypes = {
+  item: PropTypes.shape({
+    images: PropTypes.arrayOf(PropTypes.string).isRequired,
+    title: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
+  })
+};
+
+export default CatalogItem;

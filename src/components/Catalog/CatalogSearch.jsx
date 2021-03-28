@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import Context from '../../contexts/Context';
+import PropTypes from 'prop-types';
 
-export default function CatalogSearch({onQuery: handleQuery}) {
+function CatalogSearch({onQuery: handleQuery}) {
 
   const {query, setQuery} = useContext(Context);
 
@@ -20,3 +21,9 @@ export default function CatalogSearch({onQuery: handleQuery}) {
     </form>
   )
 }
+
+CatalogSearch.propTypes = {
+  onQuery: PropTypes.func.isRequired,
+};
+
+export default CatalogSearch;

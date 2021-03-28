@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { FetchError, Preloader } from '../../common';
 import ProductPageItem from './ProductPageItem';
+import PropTypes from 'prop-types';
 
-export default function ProductPage({match, history}) {  
+function ProductPage({match, history}) {  
   const itemUrl = `http://localhost:7070/api/items/${match.params.id}`;
 
   const [item, setItem] = useState(null);
@@ -37,3 +38,10 @@ export default function ProductPage({match, history}) {
     </>
   )
 }
+
+ProductPage.propTypes = {
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+};
+
+export default ProductPage;
