@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { FetchError, Preloader } from '../../common';
 import Context from '../../contexts/Context';
 import CatalogCategories from './CatalogCategories/CatalogCategories';
@@ -7,15 +7,16 @@ import CatalogSearch from './CatalogSearch';
 import PropTypes from 'prop-types';
 
 function Catalog(props) {
+  // Вот это всё, вероятно, лучше в 1 стейт
   const [items, setItems] = useState(null);
 	const [itemsError, setItemsError] = useState(null);
   const [itemsLoading, setItemsLoading] = useState(false);
+  
   const [shoes, setShoes] = useState([]);
   const {urlParams, setUrlParams} = useContext(Context);
-  const loadMoreButton = useRef(null);
   
-  let itemsUrl = `http://localhost:7070/api/items?categoryId=${urlParams.category}&q=${urlParams.query}&offset=${urlParams.offset}`
-
+  let itemsUrl = `http://localhost:7070/api/items?categoryId=${urlParams.category}&q=${urlParams.query}&offset=${urlParams.offset}` // ОТСЮДА И ДО КОНЦА ЮЗЭФФЕКТА ВЫНЕСТИ В ОТДЕЛЬНЫЙ ХУК. ПОПРОБУЙ (в последнюю очередь)
+  // Но пожалуй со всеми этими делами лучше потренироватсья на менее сложном компоненте - в топсэйлз, например
 
   // Тащить данные с сервера по сформированному URL
 	useEffect(
@@ -47,15 +48,8 @@ function Catalog(props) {
   // Набиваем массив для обуви тем, что пришло с сервера. Дополняя то, что уже было
   useEffect(
     () => {
-      if (items) {
-        setShoes((prevShoes) => [...prevShoes, ...items]);
-        if (items.length < 6) {
-          loadMoreButton.current.style.visibility = "hidden";
-        } else {
-          loadMoreButton.current.style.visibility = "visible";
-        }
-        loadMoreButton.current.removeAttribute("disabled");
-      }
+      if (items) setShoes(prevShoes => [...prevShoes, ...items]);
+      // Ну вот, кстати говоря, благодаря такой штуке можно использовать юзДжейсонФетч, ибо в стейте отпадёт необходимость
     },
     [items]
   );
@@ -69,18 +63,9 @@ function Catalog(props) {
     [urlParams.category, urlParams.query]
   );
 
-
   // Обработчик смены категории
-  const handleChangeCategory = (categoryName, allCategories) => {
-    let categoryId;
-    if (categoryName === "Все") {
-      categoryId = 0;
-    } else {
-      let result = allCategories.find(category => category.title.toLowerCase() === categoryName.toLowerCase());
-      categoryId = result.id;
-    }
-    setUrlParams(prevParams => ({...prevParams, category: categoryId}));
-    setUrlParams(prevParams => ({...prevParams, offset: 0}));
+  const handleChangeCategory = (categoryId) => {
+    setUrlParams(prevParams => ({...prevParams, category: categoryId, offset: 0}));
   }
 
   // Обработчик поискового запроса
@@ -90,7 +75,6 @@ function Catalog(props) {
 
   // Обработчик "Загрузить ещё"
   const handleOffset = () => {
-    if (!itemsLoading) loadMoreButton.current.setAttribute("disabled", "disabled");
     const newOffset = urlParams.offset + 6;
     setUrlParams(prevParams => ({...prevParams, offset: newOffset}));
   }
@@ -101,7 +85,6 @@ function Catalog(props) {
   try {
     isCatalog = props.match.path;
   } catch (error) {
-    // Лучшее, до чего я додумался =) (чтобы поиск отображался только на экране каталога)
   }
 
   return (
@@ -112,8 +95,13 @@ function Catalog(props) {
       {itemsError && FetchError(`Ошибка загрузки данных (товары каталога): ${itemsError.message}`)}
       {(!items) ? Preloader() :  <CatalogElements items={shoes} />}
       <div className="text-center">
-        <button onClick={handleOffset} ref={loadMoreButton} className="btn btn-outline-primary">
-          {(!items) ? Preloader() : "Загрузить ещё"}
+        <button 
+          onClick={handleOffset}
+          className="btn btn-outline-primary"
+          disabled={itemsLoading}
+          style={(items < 6) ? {visibility: 'hidden'} : {visibility: 'visible'}}
+        >
+          {(itemsLoading) ? "Идёт загрузка..." : "Загрузить ещё"}
         </button>
       </div>
     </section>

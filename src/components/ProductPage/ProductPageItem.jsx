@@ -1,4 +1,4 @@
-import React, {useState, useRef, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import { getCartData, setCartData, checkImage } from '../../common';
 import Context from '../../contexts/Context';
 import PropTypes from 'prop-types';
@@ -7,10 +7,11 @@ function ProductPageItem({item, history}) {
 
   const {setProductList} = useContext(Context);
   const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState(null)
 
-  const addToCartButton = useRef(null);
-  const quantityModule = useRef(null);
-  let selectedSize = useRef(null);
+  const handleChooseSize = (size) => {
+    setSelectedSize(size);
+  }
 
   const handleIncrement = () => {
     setQuantity(prevQuantity=> prevQuantity + 1);
@@ -22,19 +23,13 @@ function ProductPageItem({item, history}) {
     if (quantity <= 0) setQuantity(0);
   }
 
-  const handleChoice = ({target}) => {
-    selectedSize.current = target.textContent;
-    if (addToCartButton.current.style.visibility === "hidden") addToCartButton.current.style.visibility = "visible";
-    if (quantityModule.current.style.visibility === "hidden") quantityModule.current.style.visibility = "visible";
-  }
-
   const handleAdd = () => {
     const productList = getCartData() || [];
     const productItem = {
       id: item.id,
       name: item.title,
       price: item.price,
-      size: selectedSize.current,
+      size: selectedSize,
       quantity,
     }
     let isSameShoes = false;
@@ -104,18 +99,29 @@ function ProductPageItem({item, history}) {
 							</tbody>
 						</table>
 							<div className="text-center">
-								<div>Размеры в наличии: 
+                {/*
+                При данной реализации модуль выбора размера напрашивается в отдельный компонент
+                (чтобы не было перерисовки всей страницы товара из-за смены выбранного размера)
+                Сейчас уж переделывать не буду, но буду иметь в виду на будущее...
+                Вообще, по-уму, тут 3 подкомпонента - таблица и картинка, выбор размера, модуль количества и кнопка
+                И функцию по смене количества размера можно в одну собрать, принимая знак операции как аргумент
+                */}
+								<div>Размеры в наличии: &nbsp;
                   {item.sizes
                     .filter(size => size.avalible)
                     .map(item =>
                       <p key={item.size} style={{display: "inline-block"}}>
-                        <input className="catalog-item-radio visually-hidden" id={item.size} type="radio" name="sizes"/>
-                        <label onClick={handleChoice} className="catalog-item-size" htmlFor={item.size}>{item.size}</label>
+                        <span
+                          className={`catalog-item-size ${(item.size === selectedSize) && "selected"}`}
+                          onClick={() => handleChooseSize(item.size)}
+                        >
+                          {item.size}
+                        </span>
                       </p> 
                     )
                   }
 								</div>
-								<p ref={quantityModule} style={{visibility: "hidden"}}>Количество:
+								<p style={selectedSize === null ? {visibility: "hidden"} : {visibility: 'visible'}}>Количество:
 									<span className="btn-group btn-group-sm pl-2">
 										<button onClick={handleDecrement} className="btn btn-secondary">-</button>
 										<span className="btn btn-outline-primary">{quantity}</span>
@@ -123,7 +129,13 @@ function ProductPageItem({item, history}) {
 									</span>
 								</p>
 							</div>
-							<button onClick={handleAdd} ref={addToCartButton} style={{visibility: "hidden"}} className="btn btn-danger btn-block btn-lg">В корзину</button>
+							<button 
+                onClick={handleAdd}
+                style={selectedSize === null ? {visibility: "hidden"} : {visibility: 'visible'}}
+                className="btn btn-danger btn-block btn-lg"
+              >
+                В корзину
+              </button>
 					</div>
 			</div>
 		</section>

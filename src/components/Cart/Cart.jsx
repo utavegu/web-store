@@ -16,11 +16,11 @@ export default function Cart() {
   const items = getCartData();
   let itemsForSend;
   if (items) {
-    itemsForSend = items.map(item => new Object({
+    itemsForSend = items.map(item => ({
       id: item.id, 
       price: item.price, 
       count: item.quantity,
-  }))
+    }))
   }
     
   const handleSend = async (data) => {

@@ -25,19 +25,16 @@ export default function HeaderControls() {
   }
 
   const handleSearchIcon = () => {
-    searchForm.current.classList.toggle("invisible");
+    // Тут, видимо, тогда придётся сделать стэйт-флаг и исходя из его правдивости отрисовывать поиск
+    searchForm.current.classList.toggle("invisible");     // тоглить классы на этапе рендеринга
     searchField.current.focus();
-    if (searchText) {
-      moveQueryToCatalog();
-    }
+    if (searchText) moveQueryToCatalog();
   }
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    if (searchText) {
-      moveQueryToCatalog();
-    }
-    searchForm.current.classList.add("invisible")
+    if (searchText) moveQueryToCatalog();
+    searchForm.current.classList.add("invisible")     // тоглить классы на этапе рендеринга
   }
 
   // ЛОГИКА КОРЗИНЫ
@@ -63,7 +60,12 @@ export default function HeaderControls() {
           </div>
         </NavLink>
       </div>
-      <form onSubmit={handleSubmit} ref={searchForm} data-id="search-form" className="header-controls-search-form form-inline invisible">
+      <form
+        onSubmit={handleSubmit}
+        ref={searchForm}
+        data-id="search-form"
+        className="header-controls-search-form form-inline invisible"
+      >
         <input onChange={handleChange} value={searchText} ref={searchField} className="form-control" placeholder="Поиск" />
       </form>
     </div>

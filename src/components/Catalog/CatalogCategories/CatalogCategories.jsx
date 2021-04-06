@@ -38,32 +38,27 @@ function CatalogCategories({onChangeCategory: handleChangeCategory, selectedCate
     },
     [categories]
   );
-
-  const handleClick = ({target}) => {
-    if (target.className !== "nav-link active") {
-      handleChangeCategory(target.textContent, categories);
-    }
-  }
   
   return (
     <>
-    {categoriesError && FetchError(`Ошибка загрузки данных (категории каталога): ${categoriesError.message}`)}
-    {
-      (!allCategories) ? Preloader() : 
-      <ul className="catalog-categories nav justify-content-center">
-        {allCategories.map(category => 
-        <li className="nav-item" key={category.id}>
-          <button
-          onClick={handleClick}
-          className={`nav-link${(selectedCategory===category.id) ? " active" : ""}`}
-          type="button"
-          >
-            {category.title}
-          </button>
-        </li>
-      )}
-      </ul>
-    }
+      {categoriesError && FetchError(`Ошибка загрузки данных (категории каталога): ${categoriesError.message}`)}
+      {
+        (!allCategories) ? Preloader() : 
+        <ul className="catalog-categories nav justify-content-center">
+          {allCategories.map(category => 
+            <li className="nav-item" key={category.id}>
+              <button
+                onClick={() => handleChangeCategory(category.id)}
+                className={`nav-link ${(selectedCategory===category.id) && "active"}`}
+                disabled={selectedCategory===category.id}
+                type="button"
+              >
+                {category.title}
+              </button>
+            </li>
+        )}
+        </ul>
+      }
     </>
   )
 }
