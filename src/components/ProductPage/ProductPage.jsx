@@ -1,40 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { FetchError, Preloader } from '../../common';
 import ProductPageItem from './ProductPageItem';
 import PropTypes from 'prop-types';
+import useJsonFetch from '../../hooks/useJsonFetch';
 
 function ProductPage({match, history}) {  
   const itemUrl = `http://localhost:7070/api/items/${match.params.id}`;
-
-  const [item, setItem] = useState(null);
-  const [itemError, setItemError] = useState(null);
-
-  useEffect(
-		() => {
-			const fetchData = async () => {
-				try {
-					const response = await fetch(itemUrl);
-					if (!response.ok) {
-						throw new Error(response.statusText);
-					}
-					const data = await response.json();
-					setItem(data);
-					setItemError(null);
-				} 
-				catch (e) {
-					setItemError(e);
-					console.dir(e.message);
-				} 
-			};
-			fetchData();
-		},
-		[itemUrl]
-	);
+  const {data: item, hasError: error} = useJsonFetch(itemUrl);
 
   return (
     <>
       {(!item) ? Preloader() : <ProductPageItem item={item} history={history}/>}
-      {itemError && FetchError(`Ошибка загрузки данных: ${itemError.message}`)}
+      {error && FetchError(`Ошибка загрузки данных: ${error.message}`)}
     </>
   )
 }

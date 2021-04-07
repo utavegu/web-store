@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { getCartData } from '../../common';
@@ -10,8 +10,7 @@ export default function HeaderControls() {
 
   // ЛОГИКА ПОИСКА
   const [searchText, setSearchText] = useState("");
-  const searchForm = useRef(null);
-  const searchField = useRef(null);
+  const [searchIsVisible, setSearchIsVisible] = useState(false)
 
   const moveQueryToCatalog = () => {
     setQuery(searchText.trim());
@@ -25,16 +24,15 @@ export default function HeaderControls() {
   }
 
   const handleSearchIcon = () => {
-    // Тут, видимо, тогда придётся сделать стэйт-флаг и исходя из его правдивости отрисовывать поиск
-    searchForm.current.classList.toggle("invisible");     // тоглить классы на этапе рендеринга
-    searchField.current.focus();
+    setSearchIsVisible(!searchIsVisible);
+    // searchField.current.focus(); // атрибут autofocus
     if (searchText) moveQueryToCatalog();
   }
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     if (searchText) moveQueryToCatalog();
-    searchForm.current.classList.add("invisible")     // тоглить классы на этапе рендеринга
+    setSearchIsVisible(false);
   }
 
   // ЛОГИКА КОРЗИНЫ
@@ -62,12 +60,18 @@ export default function HeaderControls() {
       </div>
       <form
         onSubmit={handleSubmit}
-        ref={searchForm}
         data-id="search-form"
-        className="header-controls-search-form form-inline invisible"
+        className={`header-controls-search-form form-inline ${!searchIsVisible && 'invisible'}`}
       >
-        <input onChange={handleChange} value={searchText} ref={searchField} className="form-control" placeholder="Поиск" />
+        <input
+          onChange={handleChange}
+          value={searchText}
+          className="form-control"
+          placeholder="Поиск"
+          autoFocus
+        />
       </form>
+
     </div>
   )
 }
