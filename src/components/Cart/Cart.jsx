@@ -6,13 +6,14 @@ import Context from '../../contexts/Context';
 import { useHistory } from 'react-router';
 
 export default function Cart() {
-  const {setProductList} = useContext(Context);
   const [sendError, setSendError] = useState(null);
   const [sendSuccess, setSendSuccess] = useState(false);
   const [sendLoading, setSendLoading] = useState(false);
+  const {setProductList} = useContext(Context);
   const history = useHistory();
 
   const ORDER_LINK = "http://localhost:7070/api/order";
+
   const items = getCartData();
   let itemsForSend;
   if (items) {

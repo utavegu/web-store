@@ -3,39 +3,28 @@ import { useHistory } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { getCartData } from '../../common';
 import Context from '../../contexts/Context';
+import HeaderSearch from './HeaderSearch';
 
 export default function HeaderControls() {
   const history = useHistory();
   const {setQuery, setUrlParams} = useContext(Context);
-
-  // ЛОГИКА ПОИСКА
+  const [searchIsVisible, setSearchIsVisible] = useState(false);
   const [searchText, setSearchText] = useState("");
-  const [searchIsVisible, setSearchIsVisible] = useState(false)
 
-  const moveQueryToCatalog = () => {
-    setQuery(searchText.trim());
-    setUrlParams({offset: 0, category: 0, query: searchText});
-    setSearchText("");
-    history.push("/catalog");
+  const processSearchRequest = () => {
+    if (searchText) {
+      setQuery(searchText.trim());
+      setUrlParams({offset: 0, category: 0, query: searchText.trim()});
+      history.push("/catalog");
+      setSearchText("");
+    }
+    setSearchIsVisible(!searchIsVisible);
+  }
+
+  const handleClick = () => {
+    processSearchRequest(searchText)
   } 
 
-  const handleChange = ({ target }) => {
-    setSearchText(target.value);
-  }
-
-  const handleSearchIcon = () => {
-    setSearchIsVisible(!searchIsVisible);
-    // searchField.current.focus(); // атрибут autofocus
-    if (searchText) moveQueryToCatalog();
-  }
-
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
-    if (searchText) moveQueryToCatalog();
-    setSearchIsVisible(false);
-  }
-
-  // ЛОГИКА КОРЗИНЫ
   let quantityInCart;
   (getCartData() !== null)
   ?
@@ -45,32 +34,31 @@ export default function HeaderControls() {
   :
   quantityInCart = false;
 
-  // В принципе можно пошаманить с помощью флекс-ордера и разбить на 2 компонента, но пускай будет так
-  
   return (
     <div>
       <div className="header-controls-pics">
-        <div onClick={handleSearchIcon} data-id="search-expander" className="header-controls-pic header-controls-search"></div>
+
+        <div onClick={handleClick} data-id="search-expander" className="header-controls-pic header-controls-search"></div>
+
         <NavLink to="/cart" className="nav-link">
           <div className="header-controls-pic header-controls-cart">
             {(quantityInCart) ? <div className="header-controls-cart-full">{quantityInCart}</div> : null}
             <div className="header-controls-cart-menu"></div>
           </div>
         </NavLink>
+
       </div>
-      <form
-        onSubmit={handleSubmit}
-        data-id="search-form"
-        className={`header-controls-search-form form-inline ${!searchIsVisible && 'invisible'}`}
-      >
-        <input
-          onChange={handleChange}
-          value={searchText}
-          className="form-control"
-          placeholder="Поиск"
-          autoFocus
-        />
-      </form>
+
+      {
+      searchIsVisible 
+      && 
+      <HeaderSearch
+        searchText={searchText}
+        // Тут, вроде, надо какие-то другие имена пропсов придумать:
+        setSearchText={setSearchText}
+        processSearchRequest={processSearchRequest}
+      />
+      }
 
     </div>
   )
