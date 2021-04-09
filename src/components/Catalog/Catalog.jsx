@@ -55,7 +55,7 @@ function Catalog(props) {
       {isCatalog && <CatalogSearch onQuery={handleQuery} />}
       <CatalogCategories onChangeCategory={handleChangeCategory} selectedCategory={urlParams.category} />
       {error && FetchError(`Ошибка загрузки данных (товары каталога): ${error.message}`)}
-      {(!items) ? Preloader() :  <CatalogElements items={shoes} />}
+      {(!items) ? Preloader() : <CatalogElements items={shoes} />}
       <div className="text-center">
         <button 
           onClick={handleOffset}

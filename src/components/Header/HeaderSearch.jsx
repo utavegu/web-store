@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function HeaderSearch({searchText, setSearchText, processSearchRequest}) {
+function HeaderSearch({searchText, setSearchText, processSearchRequest}) {
   const handleChange = ({ target }) => {
-    // ДЕБАУНС
     setSearchText(target.value);
   }
 
@@ -27,3 +27,11 @@ export default function HeaderSearch({searchText, setSearchText, processSearchRe
     </form>
   )
 }
+
+HeaderSearch.propTypes = {
+  searchText: PropTypes.string.isRequired,
+  setSearchText: PropTypes.func.isRequired,
+  processSearchRequest: PropTypes.func.isRequired,
+};
+
+export default HeaderSearch;

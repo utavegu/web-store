@@ -20,7 +20,7 @@ function CatalogCategories({onChangeCategory: handleChangeCategory, selectedCate
     <>
       {error && FetchError(`Ошибка загрузки данных (категории каталога): ${error.message}`)}
       {
-        (!allCategories) ? Preloader() : 
+        (!categories) ? Preloader() : 
         <ul className="catalog-categories nav justify-content-center">
           {allCategories.map(category => 
             <li className="nav-item" key={category.id}>
