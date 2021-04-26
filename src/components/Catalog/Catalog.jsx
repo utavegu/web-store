@@ -43,11 +43,7 @@ function Catalog(props) {
     setUrlParams(prevParams => ({...prevParams, offset: newOffset}));
   }
 
-  let isCatalog;
-  try {
-    isCatalog = props.match.path;
-  } catch (error) {
-  }
+  const isCatalog = !!(props && props.match && props.match.path);
 
   return (
     <section className="catalog">
